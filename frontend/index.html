@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Default meta tags. Each page replaces title, description, canonical and
+         Open Graph tags at runtime (see src/hooks/useSeo.ts). There's deliberately
+         no static canonical here: a fixed one would mark every page as a copy of
+         the homepage. -->
+    <title>CoolRunningsFitness — Track Your Runs, Join the Community</title>
+    <meta name="description" content="Track your runs, join a community of runners, and get training tips, race guides and nutrition advice. We run together." />
+    <meta name="author" content="CoolRunningsFitness" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#F5F4F0" />
+
+    <meta property="og:site_name" content="CoolRunningsFitness" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="CoolRunningsFitness — Track Your Runs, Join the Community" />
+    <meta property="og:description" content="Track your runs, join a community of runners, and get training tips, race guides and nutrition advice." />
+    <meta property="og:image" content="/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Schema.org for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "CoolRunningsFitness",
+      "url": "https://coolrunningsfitness.com",
+      "description": "Track your running activities, connect with runners worldwide, access training tips, and achieve your fitness goals.",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <!-- Apply the saved light/dark theme before the page paints (prevents a flash) -->
+    <script>
+      (function () {
+        try {
+          var c = localStorage.getItem('crf_theme');
+          var dark = c === 'dark' || ((!c || c === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (dark) document.documentElement.classList.add('dark');
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute('content', dark ? '#111214' : '#F5F4F0');
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

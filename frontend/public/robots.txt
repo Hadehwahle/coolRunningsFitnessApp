@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /settings
+Disallow: /reset-password
+Disallow: /api/
+
+# Generated from the database by the backend (lists every post and discussion).
+# Replace the domain with your live site.
+Sitemap: https://coolrunningsfitness.com/sitemap.xml

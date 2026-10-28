@@ -1,0 +1,57 @@
+# Rendered at container start by the official nginx image (envsubst).
+# BACKEND_URL points at the API service, e.g. http://backend:5000
+server {
+    listen 80;
+    server_name _;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml application/xml application/javascript application/json image/svg+xml;
+
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+    # Built JS/CSS have content hashes in their names, so they can be cached forever
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Backend routes: API, uploaded images, live updates and the generated sitemap
+    location /api/ {
+        proxy_pass ${BACKEND_URL};
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        client_max_body_size 6m;
+    }
+    location /uploads/ {
+        proxy_pass ${BACKEND_URL};
+        expires 30d;
+    }
+    location = /sitemap.xml {
+        proxy_pass ${BACKEND_URL};
+    }
+    location /socket.io/ {
+        proxy_pass ${BACKEND_URL};
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+    }
+
+    # Single-page app: every other path serves index.html
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location = /health {
+        access_log off;
+        default_type text/plain;
+        return 200 "healthy\n";
+    }
+}
